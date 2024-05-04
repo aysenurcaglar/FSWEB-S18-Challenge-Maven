@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/workintech/cards")
+@RequestMapping("/cards")
 @CrossOrigin("*")
 public class CardController {
 
@@ -29,6 +29,7 @@ public class CardController {
 
     @GetMapping("/byColor/{color}")
     public List<Card> getCardsByColor(@PathVariable String color) {
+        CardValidation.validateColor(color);
         return cardRepository.findByColor(color.toUpperCase());
 
     }
@@ -39,25 +40,26 @@ public class CardController {
         return cardRepository.save(card);
     }
 
-    @PutMapping("/{id}")
-    public Card updateCard(@PathVariable Long id, @RequestBody Card updatedCard) {
-        Card existingCard = cardRepository.findAll().stream()
-                .filter(c -> c.getId().equals(id))
-                .findFirst()
-                .orElseThrow(() -> new CardException("Card with id " + id + " not found"));
-
+//    @PutMapping("/{id}")
+//    public Card updateCard(@PathVariable Long id, @RequestBody Card updatedCard) {
+//        Card existingCard = cardRepository.findAll().stream()
+//                .filter(c -> c.getId().equals(id))
+//                .findFirst()
+//                .orElseThrow(() -> new CardException("Card with id " + id + " not found"));
+//
+//        CardValidation.validateCard(updatedCard);
+//        updatedCard.setId(id);
+//        return cardRepository.update(updatedCard);
+//    }
+    @PutMapping("")
+    public Card updateCard(@RequestBody Card updatedCard) {
         CardValidation.validateCard(updatedCard);
-        updatedCard.setId(id);
         return cardRepository.update(updatedCard);
     }
 
     @DeleteMapping("/{id}")
     public Card deleteCard(@PathVariable Long id) {
-        Card removedCard = cardRepository.remove(id);
-        if (removedCard == null) {
-            throw new CardException("Card with id " + id + " not found");
-        }
-        return removedCard;
+        return cardRepository.remove(id);
     }
 
     @GetMapping("/byValue/{value}")

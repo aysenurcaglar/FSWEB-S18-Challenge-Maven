@@ -25,9 +25,9 @@ public class CardValidation {
             throw new CardException("Request invalid: JOKER card must not have value or color");
         }
 
-        if (card.getColor() == null && card.getType() != Type.JOKER) {
-            throw new CardException("Request invalid: Non-JOKER cards must have a color");
-        }
+//        if (card.getColor() == null && card.getType() != Type.JOKER) {
+//            throw new CardException("Request invalid: Non-JOKER cards must have a color");
+//        }
     }
 
     public static void validateColor(String color) {
@@ -40,21 +40,21 @@ public class CardValidation {
         }
 
         if (!validColor) {
-            throw new CardException("Card color not found");
+            throw new CardException("Card not found");
         }
     }
 
-    public static void validateType(String type) {
-        boolean validType = false;
-        for (Type cardType : Type.values()) {
-            if (cardType.name().equalsIgnoreCase(type)) {
-                validType = true;
-                break;
-            }
-        }
-
-        if (!validType) {
-            throw new CardException("Card type not found");
-        }
-    }
+//    public static void validateType(String type) {
+//        boolean validType = false;
+//        for (Type cardType : Type.values()) {
+//            if (cardType.name().equalsIgnoreCase(type)) {
+//                validType = true;
+//                break;
+//            }
+//        }
+//
+//        if (!validType) {
+//            throw new CardException("Card not found");
+//        }
+//    }
 }

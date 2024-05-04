@@ -13,7 +13,6 @@ import lombok.NoArgsConstructor;
 public class Card {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private Integer value;

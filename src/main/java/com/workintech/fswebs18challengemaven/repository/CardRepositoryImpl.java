@@ -38,7 +38,7 @@ public class CardRepositoryImpl implements CardRepository {
         List<Card> cards = query.getResultList();
 
         if (cards.isEmpty()) {
-            throw new CardException("Cards with color " + color + " not found");
+            throw new CardException("There are no cards with this color");
         }
 
         return cards;
@@ -59,13 +59,12 @@ public class CardRepositoryImpl implements CardRepository {
 
     @Override
     public List<Card> findByType(String type) {
-        CardValidation.validateType(type);
         TypedQuery<Card> query = entityManager.createQuery("SELECT c FROM Card c WHERE c.type = :type", Card.class);
         query.setParameter("type", type);
         List<Card> cards = query.getResultList();
 
         if (cards.isEmpty()) {
-            throw new CardException("Cards with type " + type + " not found");
+            throw new CardException("There are no cards with this type");
         }
 
         return cards;
@@ -81,6 +80,9 @@ public class CardRepositoryImpl implements CardRepository {
     @Transactional
     public Card remove(Long id) {
         Card card = entityManager.find(Card.class, id);
+        if (card == null) {
+            throw new CardException("Card with id " + id + " not found");
+        }
         entityManager.remove(card);
         return card;
     }
